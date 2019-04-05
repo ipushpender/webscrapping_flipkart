@@ -23,7 +23,6 @@ let MobileSchema = new Schema({
     },
     status: {
         type: String
-        // required: true
     },
     rating: {
         type: String,
@@ -39,7 +38,6 @@ let MobileSchema = new Schema({
     },
     sim: {
         type: String
-        // required: true
     },
     battery: {
         type: String,
@@ -59,11 +57,9 @@ let MobileSchema = new Schema({
     },
     discount: {
         type: String
-        // required: true
     },
     old_price: {
         type: String,
-        // required: true
     },
 });
 

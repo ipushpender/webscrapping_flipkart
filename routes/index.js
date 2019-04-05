@@ -15,7 +15,7 @@ router.get('/fetch/flipkart/mobile', (error, res, body) => {
   function callback(error, response, body) {
     if (!error && response.statusCode == 200) {
       const $ = cheerio.load(body);
-      let data =[];
+      let data = [];
       $("._3O0U0u ").each((i, el) => {
         obj = {
           title: $(el).find("._3wU53n").text(),
@@ -35,7 +35,7 @@ router.get('/fetch/flipkart/mobile', (error, res, body) => {
           discount: $(el).find(".VGWI6T span").text(),
           old_price: $(el).find("._2GcJzG").text()
         }
-       data[i] =obj;
+        data.push(obj);
       });
       Mobile.insertMany(data).then((data) => {
         res.status(201).json({
