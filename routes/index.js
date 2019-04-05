@@ -2,6 +2,7 @@ let express = require('express');
 let router = express.Router();
 let request = require('request');
 let cheerio = require('cheerio');
+let mobile = require('../models/mobile');
 /* GET home page. */
 router.get('/fetch/flipkart/mobile', (error, res, body) => {
   const options = {
@@ -15,29 +16,47 @@ router.get('/fetch/flipkart/mobile', (error, res, body) => {
     if (!error && response.statusCode == 200) {
       const $ = cheerio.load(body);
       var item = [];
-        $("._3O0U0u ").each((i, el) => {
-      obj = {
+      $("._3O0U0u ").each((i, el) => {
+        obj = {
           title: $(el).find("._3wU53n").text(),
           href: $(el).find("a").attr('href'),
           image: $(el).find("._1Nyybr").attr("src"),
           display: $(el).find(".vFw0gD .tVe95H:nth-child(2)").text(),
           warranty: $(el).find(".vFw0gD .tVe95H:last-child").text(),
-          status:  $(el).find(".rIHMVr").text(),
+          status: $(el).find(".rIHMVr").text(),
           rating: $(el).find(".hGSR34").text(),
           review: $(el).find("._38sUEc").text(),
           memory: $(el).find(".vFw0gD .tVe95H:first-child").text(),
           sim: $(el).find(".vFw0gD .tVe95H:nth-child(6)").text(),
           battery: $(el).find(".vFw0gD .tVe95H:nth-child(4)").text(),
           camera: $(el).find(".vFw0gD .tVe95H:nth-child(3)").text(),
-          processor:$(el).find(".vFw0gD .tVe95H:nth-child(5)").text(),
+          processor: $(el).find(".vFw0gD .tVe95H:nth-child(5)").text(),
           price: $(el).find("._1vC4OE ").text(),
           discount: $(el).find(".VGWI6T span").text(),
           old_price: $(el).find("._2GcJzG").text()
         }
+        mobile.create(obj).then((data) => {
+          if (!data) {
+            res.status(401).json({
+              success: false,
+              message: "No item Saved!!",
+              "items": item
+            });
+          } else {
+            res.status(201).json({
+              success: true,
+              message: "Item Saved Sucessfully!!",
+              "items": item
+            });
+          }
+        }).catch((err) => {
+          res.status(500).json({
+            success: false,
+            message: "Error!!",
+            error: err
+          });
+        });
         item.push(obj);
-      });
-      res.json({
-        "item": item
       });
     }
   }

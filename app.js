@@ -3,8 +3,16 @@ let express = require('express');
 let path = require('path');
 let indexRouter = require('./routes/index');
 let app = express();
-
+let mongoose =require('mongoose');
 // view engine setup
+
+try{
+  mongoose.connect('mongodb://localhost:27017/flipkart_mobiles',{
+    useNewUrlParser:true
+  });
+}catch(err){
+  console.log(err);
+}
 
 app.use(express.json());
 app.use(express.urlencoded({
