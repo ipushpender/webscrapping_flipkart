@@ -1,6 +1,10 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 let MobileSchema = new Schema({
+    title: {
+        type: String,
+        required: true
+    },
     href: {
         type: String,
         required: true
