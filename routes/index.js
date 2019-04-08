@@ -68,7 +68,7 @@ router.get('/fetch/snapdeal/tshirt', (error, res, body) => {
     if (!error && response.statusCode == 200) {
       const $ = cheerio.load(body);
       let data = [];
-      var obj = {};
+      let obj = {};
       $(".js-tuple").each((i, el) => {
         obj = {
           max_price: $(el).find('.product-desc-price').text(),
