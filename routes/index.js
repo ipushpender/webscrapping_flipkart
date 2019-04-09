@@ -65,7 +65,7 @@ router.get('/fetch/snapdeal/tshirt', (req, res, next) => {
     }
   };
 
-  request(options, function get_details(error, response, body) {
+  request(options, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       const $ = cheerio.load(body);
       let data = [];
