@@ -1,4 +1,3 @@
-let rp = require("request-promise-native");
 let express = require('express');
 let router = express.Router();
 let request = require('request');
