@@ -112,10 +112,8 @@ router.get('/fetch/flipkart/mobile/full', (req, res, next) => {
   request(options, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       const $ = cheerio.load(body);
-      $("._3O0U0u").each(async (i, el) => {
-        href = $(el).find("a").attr('href');
-        href = 'https://www.flipkart.com' + href;
-        data_array.push(href);
+      $("._3O0U0u").each((i, el) => {
+        data_array.push('https://www.flipkart.com' +$(el).find("a").attr('href'));
       });
       fetchInfo(data_array, [], function (data) {
         MobileFull.insertMany(data).then((data) => {

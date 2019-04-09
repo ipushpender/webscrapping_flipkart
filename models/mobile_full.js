@@ -6,8 +6,7 @@ let MobileFullSchema = new Schema({
         required: true
     },
     rating: {
-        type: String,
-        required: true
+        type: String
     },
     price: {
         type: String
