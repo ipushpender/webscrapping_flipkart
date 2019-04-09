@@ -66,7 +66,7 @@ router.get('/fetch/snapdeal/tshirt', (req, res, next) => {
     }
   };
 
-  function callback(error, response, body) {
+  request(options, function get_details(error, response, body) {
     if (!error && response.statusCode == 200) {
       const $ = cheerio.load(body);
       let data = [];
@@ -97,8 +97,7 @@ router.get('/fetch/snapdeal/tshirt', (req, res, next) => {
         });
       });
     }
-  }
-  request(options, callback);
+  });
 });
 
 router.get('/fetch/flipkart/mobile/full', (req, res, next) => {
@@ -113,7 +112,7 @@ router.get('/fetch/flipkart/mobile/full', (req, res, next) => {
     if (!error && response.statusCode == 200) {
       const $ = cheerio.load(body);
       $("._3O0U0u").each((i, el) => {
-        data_array.push('https://www.flipkart.com' +$(el).find("a").attr('href'));
+        data_array.push('https://www.flipkart.com' + $(el).find("a").attr('href'));
       });
       fetchInfo(data_array, [], function (data) {
         MobileFull.insertMany(data).then((data) => {
@@ -134,7 +133,7 @@ router.get('/fetch/flipkart/mobile/full', (req, res, next) => {
   });
 });
 
-function fetchInfo(data, final_resp, callback) {
+function fetchInfo(data, final_resp, get_details) {
   if (data.length) {
     let options = data.splice(0, 1)[0]
     request(options, function (error, response, body) {
@@ -163,10 +162,10 @@ function fetchInfo(data, final_resp, callback) {
         }
       }
       final_resp.push(obj)
-      fetchInfo(data, final_resp, callback)
+      fetchInfo(data, final_resp, get_details)
     })
   } else {
-    callback(final_resp)
+    get_details(final_resp)
   }
 }
 
